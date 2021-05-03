@@ -6,6 +6,7 @@ Copyright: 2021 rdbende
 
 import tkinter as tk
 from tkinter import ttk
+from tkinter import font as tkfont
 import webbrowser
 import interpreter
 import sys
@@ -84,6 +85,9 @@ class Editor(tk.Frame):
         
         self.text = tk.Text(self, relief="flat", highlightthickness=0, insertwidth=1, yscrollcommand=self.scrollbar.set)
         self.text.pack(expand=True, fill='both')
+        
+        tab = tkfont.Font(font=self.text['font']).measure("    ")
+        self.text.config(tabs=tab)
         
         self.scrollbar.config(command=self.text.yview)
         
