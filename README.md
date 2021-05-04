@@ -3,6 +3,19 @@
 ![image](https://user-images.githubusercontent.com/77941087/116938829-a1258180-ac6b-11eb-9637-a5606492887a.png)\
 A dummy Brainfuck program in my editor just to f\*ck your brain
 
+## Installation
+Installation is the easiest thing in the world. Just download the repo...
+
+Download link: https://github.com/rdbende/Brainfuck-IDE/archive/refs/heads/main.zip
+
+...or clone it
+```
+git clone https://github.com/rdbende/Brainfuck-IDE.git
+```
+
+Run RUNME.py to use
+
+
 ## The program
 
 The IDE is integrated with my [Azure theme](https://github.com/rdbende/Azure-ttk-theme), for a better user experience. Just go to Settings > Download, to get a stunning appearance.
