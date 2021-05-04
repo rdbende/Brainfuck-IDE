@@ -3,6 +3,16 @@
 ![image](https://user-images.githubusercontent.com/77941087/116938829-a1258180-ac6b-11eb-9637-a5606492887a.png)\
 A dummy Brainfuck program in my editor just to f\*ck your brain
 
+## The program
+
+The IDE is integrated with my [Azure theme](https://github.com/rdbende/Azure-ttk-theme), for a better user experience. Just go to Settings > Download, to get a stunning appearance.
+
+There are two types of Brainfuck interpreters in terms of intake. 
+1. You must enter the input before running the program
+2. The input must be entered on the fly
+
+My editor is the second type, so you have to enter input on the fly, and since the Brainfuck works to accept only one character at a time, if you have an app that needs to enter more data and compute something with it, unfortunately the program won't do anything, just constantly prompts for inputs until all 65336 bytes are full 😞
+
 ## What is Brainfuck?
 
 ### TL;DR:
@@ -37,11 +47,11 @@ Character | Meaning
 \] | if the byte at the data pointer is nonzero, then instead of moving the instruction pointer forward to the next command, jump it back to the command after the matching \[ command.
 
 
-### Bugs
-I know the IDE is far from good. Current bugs:
+## Bugs
+I know the IDE is far from good, and the code is a bit hacky. Current bugs:
 - On-close save prompts
 - Azure theme on Linux filedialog (looks awful)
-- Syntax highlighting is quite slow (I don't know if it could be faster)
+- Syntax highlighting is quite slow, it doesn't work in some cases when editing code (I don't know if it could be faster)
 
 And I would like to add these features
 - Auto-update with GitHub versions (just for fun)
