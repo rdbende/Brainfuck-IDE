@@ -25,7 +25,6 @@ class Input(tk.Frame):
         self.scrollbar.config(command=self.text.yview)
         
         sys.stdin = self
-        
         self.enter_pressed = False
         
         def enter(*args):
@@ -44,7 +43,7 @@ class Input(tk.Frame):
                 interpreter.running = False
                 interpreter.exit()
         line = int(self.text.index("insert")[0]) - 1
-        return self.text.get(f"{line}.0", "end")
+        return self.text.get("{}.0".format(line), "{}.end".format(line))
     
     def clear(self):
         self.text.delete("0.0", "end")
@@ -63,17 +62,22 @@ class Output(tk.Frame):
         self.scrollbar.config(command=self.text.yview)
         
         sys.stdout = self
-        
+    
+    def disabler(func):
+        def wrapper(self, *args, **kwargs):
+            self.text.config(state="normal")
+            func(self, *args, **kwargs)
+            self.text.config(state="disabled")
+            return func
+        return wrapper
+    
+    @disabler
     def delete(self, *args, **kwargs):
-        self.text.config(state="normal")
         self.text.delete(*args, **kwargs)
-        self.text.config(state="disabled")
         
-        
+    @disabler
     def write(self, content):
-        self.text.config(state="normal")
         self.text.insert("end", content)
-        self.text.config(state="disabled")
 
 
 class Editor(tk.Frame):
