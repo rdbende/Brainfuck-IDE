@@ -94,7 +94,8 @@ class Application(ttk.Frame):
         self.window.bind_all(save_keys, self.save_file)
         self.window.bind_all(saveas_keys, self.save_as_file)
         self.window.protocol("WM_DELETE_WINDOW", self.exit)
-        
+
+
     def check_internet(self):
         import socket
         HOST = "8.8.8.8"
@@ -106,7 +107,7 @@ class Application(ttk.Frame):
             return True
         except socket.error:
             return False
-        
+    
     def threaded(func):
         def wrapper(*args, **kwargs):
             thread = threading.Thread(target=func, args=args, kwargs=kwargs)
@@ -172,11 +173,11 @@ class Application(ttk.Frame):
         self.input_box.text.config(bg=Appearance.bg, fg=Appearance.fg, insertbackground=Appearance.insert, selectbackground=Appearance.select)
         self.output_box.text.config(bg=Appearance.bg, fg=Appearance.fg, selectbackground=Appearance.select)
         
-        self.editor_box.text.tag_configure("pos", foreground=Appearance.pos)
-        self.editor_box.text.tag_configure("io", foreground=Appearance.io)
-        self.editor_box.text.tag_configure("brace", foreground=Appearance.brace)
-        self.editor_box.text.tag_configure("value", foreground=Appearance.value)
-        self.editor_box.text.tag_configure("normal", foreground=Appearance.fg)
+        self.editor_box.text.tag_configure("Token.Keyword", foreground=Appearance.brace)
+        self.editor_box.text.tag_configure("Token.Name.Builtin", foreground=Appearance.value)
+        self.editor_box.text.tag_configure("Token.Name.Tag", foreground=Appearance.io)
+        self.editor_box.text.tag_configure("Token.Name.Variable", foreground=Appearance.variable)
+        self.editor_box.text.tag_configure("Token.Comment", foreground=Appearance.comment)
         
         self.editor_box.highlight()
         

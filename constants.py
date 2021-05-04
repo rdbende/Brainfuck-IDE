@@ -12,9 +12,10 @@ class Appearance():
     light_insert = "#24292e"
     light_select = "#ccc"
     light_io = "#6f42c1"
-    light_value = "#005cc5"
+    light_var = "#d73a49"
     light_brace = "#6f42c1"
-    light_pos = "#d73a49"
+    light_value = "#005cc5"
+    light_comment = "#0d1117"
     
     
     dark_bg = "#0d1117"
@@ -22,9 +23,10 @@ class Appearance():
     dark_insert = "#c9d1d9"
     dark_select = "#aaa"
     dark_io = "#d2a8ff"
-    dark_value = "#79c0ff"
+    dark_var = "#ff7b72"
     dark_brace = "#d2a8ff"
-    dark_pos = "#ff7b72"
+    dark_value = "#79c0ff"
+    dark_comment = "#767d87"
     
     @classmethod
     def change_appearance(cls, dark_mode):
@@ -34,18 +36,20 @@ class Appearance():
             cls.insert = cls.dark_insert
             cls.select = cls.dark_select
             cls.io = cls.dark_io
-            cls.value = cls.dark_value
+            cls.variable = cls.dark_var
             cls.brace = cls.dark_brace
-            cls.pos = cls.dark_pos
+            cls.value = cls.dark_value
+            cls.comment = cls.dark_comment
         else:
             cls.bg = cls.light_bg
             cls.fg = cls.light_fg
             cls.insert = cls.light_insert
             cls.select = cls.light_select
             cls.io = cls.light_io
-            cls.value = cls.light_value
+            cls.variable = cls.light_var
             cls.brace = cls.light_brace
-            cls.pos = cls.light_pos
+            cls.value = cls.light_value
+            cls.comment = cls.light_comment
 
 if platform.system() == "darwin":
     new_accel = "Cmd+N"

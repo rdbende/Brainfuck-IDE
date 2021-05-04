@@ -10,6 +10,12 @@ from tkinter import font as tkfont
 import webbrowser
 import interpreter
 import sys
+try:
+    from pygments import lex
+    from pygments.lexers import BrainfuckLexer
+    pygments = True
+except ImportError:
+    pygments = False
 
 
 class Input(tk.Frame):
@@ -90,8 +96,9 @@ class Editor(tk.Frame):
         self.text = tk.Text(self, relief="flat", highlightthickness=0, insertwidth=1, yscrollcommand=self.scrollbar.set)
         self.text.pack(expand=True, fill='both')
         
-        tab = tkfont.Font(font=self.text['font']).measure("    ")
-        self.text.config(tabs=tab)
+        self.font = tkfont.Font(family='monospace', size=10)
+        tab = self.font.measure("    ")
+        self.text.config(font=self.font, tabs=tab)
         
         self.scrollbar.config(command=self.text.yview)
         
@@ -109,25 +116,33 @@ class Editor(tk.Frame):
         self.event_generate("<<Compare>>")
         self.highlight()
         
+    def highlight_line(self, event=None, line=None):
+        index = self.text.index("insert").split(".")
+        line_no = int(index[0])
+        
+        if line == None:
+            line_text = self.text.get("{}.{}".format(line_no, 0),  "{}.end".format(line_no))
+            self.text.mark_set("range_start", str(line_no) + '.0')
+        
+        elif line is not None:
+            line_text = self.text.get("{}.{}".format(line, 0), "{}.end".format(line))
+            self.text.mark_set("range_start", str(line) + '.0')
+
+        for token, content in lex(line_text, BrainfuckLexer()):
+            self.text.mark_set("range_end", "range_start + %dc" % len(content))
+            self.text.tag_add(str(token), "range_start", "range_end")
+            self.text.mark_set("range_start", "range_end")
+
+
     def highlight(self, *args):
-        line = 0
-        total_lines = int(self.text.index('end').split('.')[0])
-        for content in range(total_lines):
-            char = 0
-            for pattern in self.text.get("{}.0".format(content), "{}.end".format(content)):
-                if pattern == "<" or pattern == ">":
-                    tag = "pos"
-                elif pattern == "." or pattern == ",":
-                    tag = "io"
-                elif pattern == "+" or pattern == "-":
-                    tag = "value"
-                elif pattern == "[" or pattern == "]":
-                    tag = "brace"
-                else:
-                    tag = "normal"
-                self.text.tag_add(tag, "{}.{}".format(line, char), "{}.{}".format(line, char + 1))
-                char += 1
-            line += 1
+        if pygments:
+            code = self.text.get("1.0", "end-1c")
+            i = 1
+            for line in code.splitlines():
+                self.text.index("%d.0" %i)
+                self.highlight_line(line=i)
+                self.text.update()
+                i += 1
             
             
 class LinkLabel(ttk.Label):
@@ -171,3 +186,4 @@ class PopupMenu(tk.Menu):
             self.tk_popup(int(event.x_root + 2), int(event.y_root + 2))
         finally:
             self.grab_release()
+

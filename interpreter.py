@@ -8,7 +8,10 @@ import sys
 
 stop = False
 running = False
-exit = sys.exit
+
+def exit():
+    sys.exit()
+    running = False
 
 def execute(file):
     global stop
@@ -67,7 +70,6 @@ def execute(file):
                 exit()
                 
         if stop:
-            running = False
             exit()
         
         position += 1
@@ -93,3 +95,4 @@ def build_bracemap(code):
     except IndexError:
         print("Parse Error")
         exit()
+
