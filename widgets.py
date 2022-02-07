@@ -116,22 +116,19 @@ class Editor(tk.Frame):
         self.event_generate("<<Compare>>")
         self.highlight()
         
-    def highlight_line(self, event=None, line=None):
+    def highlight_line(self, line=None):
+        start_range = 0
         index = self.text.index("insert").split(".")
-        line_no = int(index[0])
         
         if line == None:
-            line_text = self.text.get("{}.{}".format(line_no, 0),  "{}.end".format(line_no))
-            self.text.mark_set("range_start", str(line_no) + '.0')
+            line = int(index[0])
         
-        elif line is not None:
-            line_text = self.text.get("{}.{}".format(line, 0), "{}.end".format(line))
-            self.text.mark_set("range_start", str(line) + '.0')
+        line_text = self.text.get("{}.{}".format(line, 0), "{}.end".format(line))
 
         for token, content in lex(line_text, BrainfuckLexer()):
-            self.text.mark_set("range_end", "range_start + %dc" % len(content))
-            self.text.tag_add(str(token), "range_start", "range_end")
-            self.text.mark_set("range_start", "range_end")
+            end_range = start_range + len(content)
+            self.text.tag_add(str(token), '{}.{}'.format(line,start_range), '{}.{}'.format(line,end_range))
+            start_range = end_range
 
 
     def highlight(self, *args):
